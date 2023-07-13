@@ -7,8 +7,11 @@ class Bald{
         this.height = 100
         this.width = 45
 
-        this.posX = this.canvasHeight + 100
-        this.posY = this.canvasHeight - this.height
+        this.posX = this.canvasWidth
+        this.posY = this.canvasHeight - this.height - 35
+
+        this.image = new Image()
+        this.image.src = './Calvo.png'
     }
 
     update(){
@@ -17,15 +20,10 @@ class Bald{
     }
 
     draw(){
-        this.ctx.fillStyle = "pink"
-        this.ctx.fillRect(this.posX, this.posY, this.width, this.height)
+        this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height)
     }
 
     move(){
         this.posX = this.posX - 2
-    }
-    talk(){
-        this.Bald 
-        console.log ("Joder")
     }
 }

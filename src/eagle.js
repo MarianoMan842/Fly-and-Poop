@@ -4,16 +4,18 @@ class eagle {
        this.canvasWidth = canvasWidth
         this.ctx = ctx
         
-        this.height = 50
-        this.width = 100
+        this.height = 87
+        this.width = 147
 
         this.posX = this.canvasWidth + canvasWidth - this.width
         this.posY = Math.random()*this.canvasWidth
+
+        this.image = new Image()
+        this.image.src = './aguila.png'
         }
         
     draw() {
-        this.ctx.fillStyle = "orange"
-        this.ctx.fillRect(this.posX, this.posY, this.width, this.height)
+        this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height)
     }
     move() {
         this.posX = this.posX -20

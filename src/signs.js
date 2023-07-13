@@ -9,6 +9,9 @@
 
         this.posX = this.canvasWidth + 120
         this.posY = 0
+
+        this.image = new Image()
+        this.image.src = './Tuberia.png'
     }
 
     move(){
@@ -16,7 +19,7 @@
       }
 
       draw(){
-        this.ctx.fillStyle = 'blue'
-        this.ctx.fillRect(this.posX, this.posY, this.width, this.height)
+         this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height)
+
     }
 }

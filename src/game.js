@@ -8,6 +8,7 @@
 
     canvas: null,
     ctx: null,
+    background: null,
     
     FPS: 60,
     frames: null,
@@ -18,6 +19,7 @@
     signs: [],
     eagles: [],
     balds: [],
+    
    
     init() {
         this.initCanvas()
@@ -35,6 +37,8 @@
     loadImages() {
         this.gameOverScreen = new Image()
         this.gameOverScreen.src = "./GameOver.png"
+        this.background = new Image()
+        this.background.src = "./assets/images/background.jpg"
         
     },
 
@@ -47,7 +51,6 @@
 
     generateAll(){
         this.player = new Player(this.ctx, this.height)
-        this.house = new House (this.ctx, this.height, this.width)
         this.trees.push(new Tree (this.ctx, this.height, this.width))
         this.signs.push(new Sign (this.ctx, this.height, this.width))
         this.eagles.push(new eagle (this.ctx, this.height, this.width))
@@ -60,14 +63,19 @@
             this.signs.forEach(sign => sign.draw())
             this.eagles.forEach(eagle => eagle.draw())
             this.balds.forEach(bald => bald.draw())
-            this.house.draw()
+            
             this.ctx.fillStyle = "black"
-            this.ctx.font = "500px,"
+            this.ctx.font = "32px sans-serif"
             this.ctx.fillText(`SCORE: ${this.score}`,100,100)
+
+            this.ctx.fillStyle = "black"
+            this.ctx.font = "24px sans-serif"
+            this.ctx.fillText(`LIVES: ${this.player.lives}`,100,120)
         },
 
         clearAll(){
-            this.ctx.clearRect(0,0, this.width, this.height)
+            this.ctx.clearRect(0,0, this.width, this.height) 
+            this.ctx.clearRect(0,0, this.posY, this.posX)          
         },
 
         clearItems(){
@@ -86,10 +94,11 @@
                      this.player.lives--
                      this.trees.splice(index, 1)
                 if(this.player.lives <= 0 ) this.gameOver()
-                    }
+                }
+            
          })
-        
-             this.signs.forEach((sign, index) => {
+
+            this.signs.forEach((sign, index) => {
                 if (sign.posX < this.player.posX + this.player.width 
                    && this.player.posX < sign.posX + sign.width 
                    && this.player.posY + this.player.height < sign.posY + sign.height) {
@@ -109,17 +118,30 @@
                if(this.player.lives === 0 ) this.gameOver()
                    }
             })
-            // this.shits.forEach((shit, index) =>{
-            //     if(shit.height + shit.posY > this.balds.posY)
-            //     this.score ++
-            // })
-         },
+
+
+             this.balds.forEach(bald => {
+                 this.player.shits.forEach((shit, index) => {
+                     if (shit.posY + shit.height > bald.posY
+                         && shit.posY < bald.posY + bald.height
+                         && shit.posX + shit.width > bald.posX
+                         && shit.posX < bald.posX + bald.width) {
+                         this.score += 50
+                         this.player.shits.splice(index, 1)
+                     }
+                 })
+             })
+        },
          
          gameOver(){
             this.clearAll()
             clearInterval(this.interval)
             this.ctx.drawImage(this.gameOverScreen, 0, 0, this.width, this.height)
-            setTimeout(() => {
+            this.ctx.fillStyle = "red"
+            this.ctx.font = "48px sans-serif"
+            this.ctx.fillText(`Your Score is ${this.score}`,this.width/2,this.height/2 + 100)
+                   
+         setTimeout(() => {
                 location.reload()
             }, 5000)
          },
@@ -127,25 +149,27 @@
     start(){
         this.player.setEventListeners()
         this.drawAll()
+        
         this.interval = setInterval(() => {
             this.frames++
-            if(this.frames % 600 === 0) {
+            if(this.frames % 400 === 0) {
                 this.trees.push(new Tree (this.ctx, this.height, this.width))
             }
             if(this.frames % 360 === 0) {
                 this.signs.push(new Sign (this.ctx, this.height, this.width))
             }
-            if(this.frames % 210 === 0) {
+            if(this.frames % 150 === 0) {
                 this.eagles.push(new eagle (this.ctx, this.height, this.width))
             }
             if(this.frames % 600 === 0) {
                 this.balds.push(new Bald (this.ctx, this.height, this.width))
             }
-            if(this.frames % 60 === 0){
+            if(this.frames % 20 === 0){
                 this.player.canShoot = true
             }
+            if(this.frames % 30 === 0){
+            this.score = this.score + 1}
            
-            
             this.clearAll()
             this.drawAll()
             this.checkCollisions()

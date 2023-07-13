@@ -4,19 +4,23 @@ class Tree {
         this.canvasHeight = canvasHeight
         this.canvasWidth = canvasWidth
 
-        this.height = Math.random()*this.canvasHeight-60
+        this.height = Math.random()*this.canvasHeight-36*2
         this.width = 60
 
         this.posX = this.canvasWidth
         this.posY = this.canvasHeight - this.height
+
+        this.image = new Image()
+        this.image.src = './Tree.png'
     }
 
     move(){
-      this.posX = this.posX - 5
+            this.posX = this.posX - 10
     }
 
+
     draw(){
-        this.ctx.fillStyle = 'green'
-        this.ctx.fillRect(this.posX, this.posY, this.width, this.height)
+        this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height)
     }
+    
 }

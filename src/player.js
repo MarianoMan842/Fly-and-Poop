@@ -3,8 +3,8 @@ class Player{
         this.ctx = ctx
         this.canvasHeight = canvasHeight
 
-        this.height = 25
-        this.width = 40
+        this.height = 36*2
+        this.width = 29*2
         this.posX = 200
         this.posY = this.canvasHeight - this.height - 50
 
@@ -14,6 +14,9 @@ class Player{
         this.canMoveUp = false
         this.canMoveDown = false
         this.canShoot = true
+
+        this.image = new Image()
+        this.image.src = './Cuervo.png'
     }
 
     update(){
@@ -23,8 +26,7 @@ class Player{
     }
 
     draw() {
-        this.ctx.fillStyle = 'black'
-        this.ctx.fillRect(this.posX, this.posY, this.width, this.height)
+        this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height)
     }
 
     move() {
